@@ -4,6 +4,22 @@ import java.util.Scanner;
 
 public class Calculator {
     //Methoden für die Rechnung
+
+    public double solve(String operator, double number1, double number2){
+        switch (operator) {
+            case "\\+":
+                return number1 + number2;
+            case "\\-":
+                return number1 - number2;
+            case "\\*":
+                return number1 * number2;
+            case "\\/":
+                return number1 / number2;
+        }
+        return 0;
+    }
+
+
     public double rechnen(String input) {
         double number1, number2;
         int operatorplace = 0;
@@ -61,7 +77,7 @@ public class Calculator {
             return 0;
         }
         //Umwandlung der Zahlen in eine Int-Variable
-        if (operator != " ") {
+        if (!operator.equals(" ")) {
             //String[] zahlen = input.split(operator);
             String number1str = input.substring(0, operatorplace);
             String number2str = input.substring(operatorplace+1);
@@ -75,18 +91,9 @@ public class Calculator {
             return 0;
         }
         //Berechnung nach Operator
-        switch (operator) {
-            case "\\+":
-                return number1 + number2;
-            case "\\-":
-                return number1 - number2;
-            case "\\*":
-                return number1 * number2;
-            case "\\/":
-                return number1 / number2;
-        }
-        return 0;
+        return solve(operator, number1, number2);
     }
+
 
     public double rechnen(String input, double number1) {
         String operator = " ";
@@ -131,58 +138,29 @@ public class Calculator {
         } else {
             return 0;
         }
-
-        switch (operators.get(0)) {
-            case "\\+":
-                return number1 + number2;
-            case "\\-":
-                return number1 - number2;
-            case "\\*":
-                return number1 * number2;
-            case "\\/":
-                return number1 / number2;
-        }
-        return 0;
+    return solve(operators.get(0), number1, number2);
     }
 
 
-
     public boolean check(String input) {
-        String operator = " ";
-        List<String> operators = new ArrayList<>();
-        List<Integer> operatorsplace = new ArrayList<>();
-        //Suche nach dem Operator im String
+        boolean numbercheck = false;
+        boolean operatorcheck = false;
+        //Check ob 2 Zahlen und ein Operator existieren
         for (int i = 0; i < input.length(); i++) {
-            switch (input.charAt(i)) {
-                case '*':
-                    operator = "\\*";
-                    operators.add(operator);
-                    operatorsplace.add(i);
-                    break;
-                case '/':
-                    operator = "\\/";
-                    operators.add(operator);
-                    operatorsplace.add(i);
-                    break;
-                case '+':
-                    operator = "\\+";
-                    operators.add(operator);
-                    operatorsplace.add(i);
-                    break;
-                case '-':
-                    operator = "\\-";
-                    operators.add(operator);
-                    operatorsplace.add(i);
-                    break;
+            if (Character.isDigit(input.charAt(i))) { numbercheck = true; }
+            if (numbercheck) {
+                switch (input.charAt(i)) {
+                    case '*':
+                    case '/':
+                    case '+':
+                    case '-':
+                        operatorcheck = true;
+                        break;
+                }
             }
+            if ((operatorcheck) & (Character.isDigit(input.charAt(i)))) { return true; }
         }
-        //Umwandlung der Zahlen in eine Int-Variable
-        if(operators.size() == 1){return false;}
-        if(input.substring(operatorsplace.get(0) + 1,operatorsplace.get(1)).matches("(.*)\\d(.*)")){
-            return true;
-        }else {
-            return false;
-        }
+        return false;
     }
 
 
