@@ -174,6 +174,7 @@ public class Calculator {
         do {
             System.out.print("Eingabe: ");
             input = scanner.nextLine();
+            if (input.equals("exit")) { break; }
             if (input.equals("clear")) {clear = true;continue;}
             if (rechnen.check(input)) {clear = true;}
             if (clear) {
